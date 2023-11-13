@@ -12,6 +12,8 @@ app.get('/', (request, response) => {
     return response.status(234).send(`Pen jadi backedn developer`)
 })
 
+
+//add book
 app.post('/books', async (request, response) => {
     try{
         if(
@@ -40,6 +42,7 @@ app.post('/books', async (request, response) => {
     }
 })
 
+//get all book
 app.get('/books', async (request, response) => {
     try{
         const books = await Book.find({})
@@ -53,6 +56,39 @@ app.get('/books', async (request, response) => {
     }
 })
 
+//update book by id
+app.put('/books/:id', async (request, response) => {
+    try{
+        if(
+            !request.body.title ||
+            !request.body.author ||
+            !request.body.publishYear
+        ){
+            response.status(400).send({
+                message: 'Send all required fields: title, author, publishYear'
+            });
+        }
+
+        const {id} = request.params;
+        
+        const result = await Book.findByIdAndUpdate(id, request.body)
+        if(!result){
+            response.status(400).send({
+                message: 'Book not found'
+            });
+        }
+        response.status(400).send({
+            message: 'Book updated successfully'
+        });
+
+    }catch(error){
+        console.log(error.message);
+        response.status(500).send({message: error.message});
+    }
+})
+
+
+//get specific book by id
 app.get('/books/:id', async (request, response) => {
     try{
         const {id} = request.params;
@@ -64,6 +100,7 @@ app.get('/books/:id', async (request, response) => {
         response.status(500).send({message: error.message});
     }
 })
+
     
 
 mongoose.
@@ -76,4 +113,5 @@ mongoose.
     }).catch((error) => {
         console.log(error);
     })
+
 
