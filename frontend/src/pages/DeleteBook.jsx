@@ -14,7 +14,7 @@ const DeleteBook = () => {
     axios
       .delete(`http://localhost:5555/books/${id}`)
       .then(() => {
-        setLoading(false);;
+        setLoading(false);
         navigate('/');
       })
       .catch((error) => {
