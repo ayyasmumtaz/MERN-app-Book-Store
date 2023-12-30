@@ -29,7 +29,6 @@ router.post('/', async (request, response) => {
     response.status(500).send({ message: error.message });
   }
 });
-
 // Route for Get All Books from database
 router.get('/', async (request, response) => {
   try {
